@@ -1,0 +1,63 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+/*
+	Code brought to you by: solaris765
+	Because numbers after my screen name are fun.
+	
+	Automatically changes Monitor Profile based on resolution changes.
+
+*/
+
+public static class DisplayFusionFunction
+{
+	public static void Run(IntPtr windowHandle)
+	{
+		Application.Run(new Updater.MonitorProfileChecker());
+	}
+}
+
+
+namespace Updater
+{
+	class MonitorProfileChecker : Form
+	{
+		 public MonitorProfileChecker()
+        {			
+			InitializeComponent();
+			
+			while (true)
+			{
+				//Stop Program
+				if (BFS.Input.IsKeyDown("16;17;75"))
+					break;
+				//
+				
+				if (Screen.PrimaryScreen.Bounds.Width == 1920) //Default Resolution
+				{
+					BFS.DisplayFusion.LoadMonitorProfile("Default Profile");
+					BFS.ScriptSettings.WriteValue("Profile", "Default Profile");
+				}
+		
+				else   // Surround/Eyefinity Assumption
+				{
+					BFS.DisplayFusion.LoadMonitorProfile("NVidia Surround");
+					BFS.ScriptSettings.WriteValue("Profile", "NVidia Surround");
+				}
+				
+				BFS.General.Sleep(50);
+			}
+        }
+		private void InitializeComponent()
+        {
+            this.SuspendLayout();
+
+            this.Name = "Check_Monitor_Profile";
+            this.ShowInTaskbar = false;
+            this.Text = "Check_Monitor_Profile";
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.ResumeLayout(false);
+        }
+	}
+}
