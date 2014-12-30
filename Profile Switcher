@@ -14,50 +14,32 @@ public static class DisplayFusionFunction
 {
 	public static void Run(IntPtr windowHandle)
 	{
-		Application.Run(new Updater.MonitorProfileChecker());
-	}
-}
+		//////////
+		int defaultResolutionWidth = 1920;
+		int nonstandardReslolutionWidth = 5760;
+		/////////
 
-
-namespace Updater
-{
-	class MonitorProfileChecker : Form
-	{
-		 public MonitorProfileChecker()
-        {			
-			InitializeComponent();
-			
-			while (true)
-			{
-				//Stop Program
-				if (BFS.Input.IsKeyDown("16;17;75"))
-					break;
-				//
+		while (true)
+		{
+			//Stop Program
+			if (BFS.Input.IsKeyDown("16;18;17;81"))	//shift+ctrl+alt+Q
+				break;
+			//
 				
-				if (Screen.PrimaryScreen.Bounds.Width == 1920) //Default Resolution
-				{
-					BFS.DisplayFusion.LoadMonitorProfile("Default Profile");
-					BFS.ScriptSettings.WriteValue("Profile", "Default Profile");
-				}
+			else if (Screen.PrimaryScreen.Bounds.Width == defaultResolutionWidth) //Default Resolution
+			{																													//
+				BFS.DisplayFusion.LoadMonitorProfile("Default Profile");//replace with your monitor profile name	// Other code can be placed in these else-if blocks
+				BFS.ScriptSettings.WriteValue("Profile", "Default Profile");
+				//^creates a script settings value under 'Profile' to be used in other functions						//
+			}																													
 		
-				else   // Surround/Eyefinity Assumption
-				{
-					BFS.DisplayFusion.LoadMonitorProfile("NVidia Surround");
-					BFS.ScriptSettings.WriteValue("Profile", "NVidia Surround");
-				}
-				
-				BFS.General.Sleep(50);
-			}
-        }
-		private void InitializeComponent()
-        {
-            this.SuspendLayout();
-
-            this.Name = "Check_Monitor_Profile";
-            this.ShowInTaskbar = false;
-            this.Text = "Check_Monitor_Profile";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
-            this.ResumeLayout(false);
-        }
+			else if (Screen.PrimaryScreen.Bounds.Width == nonstandardReslolutionWidth) // Surround/Eyefinity
+			{																													//
+				BFS.DisplayFusion.LoadMonitorProfile("NVidia Surround");												//
+				BFS.ScriptSettings.WriteValue("Profile", "NVidia Surround");											//
+			}																													//
+			
+			BFS.General.Sleep(50);
+		}
 	}
 }
